@@ -18,9 +18,10 @@ import gps
 import time
 import subprocess
 
+
 # Define necessary functions
 def init_gps_data():
-    #GPS setup
+	# GPS setup
 	global session
 	latitude = None
 	subprocess.call(['sudo gpsd /dev/ttyUSB0 -n -F /var/run/gpsd.sock'], shell=True)
@@ -39,7 +40,8 @@ def init_gps_data():
 	print 'Signal acquired!'
 	with open("systemLog.txt", "a") as logFile:
 		logMsg1 = "GPS Signal Aquired Successfully\n\n"
-		logFile.write(logMsg)
+		logFile.write(logMsg1)
+
 
 def timeGet():
 	while True:
@@ -58,6 +60,7 @@ def timeGet():
 				logFile.write(logMsg2)
 			return 0.0
 
+
 def latGet():
 	while True:
 		try:
@@ -74,6 +77,7 @@ def latGet():
 				logFile.write(logMsg1)
 				logFile.write(logMsg2)
 			return 0.0
+
 
 def lonGet():
 	while True:
@@ -92,6 +96,7 @@ def lonGet():
 				logFile.write(logMsg2)
 			return 0.0
 
+
 def altGet():
 	while True:
 		try:
@@ -101,7 +106,6 @@ def altGet():
 					GPSaltitude = report.alt
 					return GPSaltitude
 				break
-
 		except Exception as e:
 			with open("systemLog.txt", "a") as logFile:
 				logMsg1 = "Failed to aquire time.\n"
@@ -109,6 +113,7 @@ def altGet():
 				logFile.write(logMsg1)
 				logFile.write(logMsg2)
 			return 0.0
+
 
 def climbGet():
 	while True:
@@ -128,5 +133,6 @@ def climbGet():
 				logFile.write(logMsg2)
 			return 0.0
 
+
 if __name__ == '__main__':
-    init_gps_data()
+	init_gps_data()

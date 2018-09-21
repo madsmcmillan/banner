@@ -15,9 +15,10 @@ import time
 # In House modules
 #import gps_control
 import gps_control_testLibrary as gps_control
+import flight_variables
+
 
 # Define necessary functions
-
 def init_log_system():
     # Write beginning of system log
     with open("systemLog.txt", "w") as logFile:
@@ -32,15 +33,17 @@ def init_log_system():
         dataFile.write("\n----------------------------------")
         dataFile.write("\n\nTimestamp\tAltitude (m)\tLatitude\tLongitude\tClimb (m/Min)\n")
 
+
 def take_data_point():
-    flightAlt  = gps_control.altGet()
-    flightTime = gps_control.timeGet()
+    flightAlt = gps_control.altGet()
+    flightTime = time.time() - flight_variables.launch_start
     flightLong = gps_control.lonGet()
-    flightLat  = gps_control.latGet()
+    flightLat = gps_control.latGet()
     flightClimb = gps_control.climbGet()
     dataMessage = '{} \t {} \t {} \t {} \t {} \n'.format(str(flightTime), str(flightAlt), str(flightLat), str(flightLong), str(flightClimb))
     with open("dataLog.txt", "a") as dataFile:
         dataFile.write(dataMessage)
+
 
 # Testing this Module
 if __name__ == '__main__':
