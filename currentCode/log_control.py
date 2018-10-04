@@ -13,11 +13,13 @@
 # Generic Modules
 import time
 # In House modules
-#import gps_control
-import gps_control_testLibrary as gps_control
+import gps_control
+#import gps_control_testLibrary as gps_control
+import flight_variables
+import thermocouple
+
 
 # Define necessary functions
-
 def init_log_system():
     # Write beginning of system log
     with open("systemLog.txt", "w") as logFile:
@@ -27,20 +29,23 @@ def init_log_system():
     # Write beginning of data log
     with open("dataLog.txt", "w") as dataFile:
         dataFile.write("Flight Data Log\n")
-        dataFile.write("Mission Start Time: ")
-        dataFile.write(str(gps_control.timeGet()))
+        dataFile.write("Mission Start Time: TBD WHEN WE GET A REAL CLOCK")
+        # dataFile.write(str(gps_control.timeGet()))
         dataFile.write("\n----------------------------------")
-        dataFile.write("\n\nTimestamp\tAltitude (m)\tLatitude\tLongitude\tClimb (m/Min)\n")
+        dataFile.write("\n\nTimestamp\tAltitude (m)\tLatitude\tLongitude\tClimb (m/s)\tTemperature (C)\n")
+
 
 def take_data_point():
-    flightAlt  = gps_control.altGet()
+    flightAlt = gps_control.altGet()
     flightTime = time.time() - flight_variables.launch_start
     flightLong = gps_control.lonGet()
-    flightLat  = gps_control.latGet()
+    flightLat = gps_control.latGet()
     flightClimb = gps_control.climbGet()
-    dataMessage = '{} \t {} \t {} \t {} \t {} \n'.format(str(flightTime), str(flightAlt), str(flightLat), str(flightLong), str(flightClimb))
+    flightTemp = thermocouple.readThermo()
+    dataMessage = '{} \t {} \t {} \t {} \t {} \t {} \n'.format(str(flightTime), str(flightAlt), str(flightLat), str(flightLong), str(flightClimb), str(flightTemp))
     with open("dataLog.txt", "a") as dataFile:
         dataFile.write(dataMessage)
+
 
 # Testing this Module
 if __name__ == '__main__':

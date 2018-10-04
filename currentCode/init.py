@@ -5,23 +5,24 @@
 
 ############################################################################
 """
-#pylint: disable=no-member
-
 # Generic Modules
 import time
 # In House Modules
-import alt_control		#DONE (tentative - needs to be tested for all cases)
-import log_control		#DONE (tested)
-import gps_control		#DONE (tested)
-import loiter_settings  #TODO Madeline (need to change GPIO pin #)
-import flight_variables #DONE
+import alt_control		 # DONE (tentative - needs to be tested for all cases)
+import log_control		 # DONE (tested)
+import gps_control		 # DONE (tested)
+#import gps_control_testLibrary as gps_control
+import loiter_settings   # TODO Madeline (need to change GPIO pin #)
+import flight_variables  # DONE
+import thermocouple
 
 if __name__ == '__main__':
 	# Initialize systems
-	log_control.init_log_system() # Logging-system setup
-	gps_control.init_gps_data() # Ensure we are getting GPS data
-	alt_control.init_coil_burner_system() # Coil-burner setup
-	flight_variables.init_flags() # Flags for checking status
+	log_control.init_log_system() 			# Logging-system setup
+	gps_control.init_gps_data() 			# Ensure we are getting GPS data
+	thermocouple.checkThermo()				# Make sure the thermocouple is getting reasonable data
+	alt_control.init_coil_burner_system() 	# Coil-burner setup
+	flight_variables.init_flags() 			# Flags for checking status
 
 	# Start launch clocks:
 	flight_variables.init_flight()
